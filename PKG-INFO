@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: epubbuilder
+Version: 0.1.4
+Summary: epub builder library
+Home-page: UNKNOWN
+Author: Anders Pearson
+Author-email: anders@columbia.edu
+License: BSD
+Description: forked from python-epub-builder
+Platform: any
