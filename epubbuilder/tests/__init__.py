@@ -1,3 +1,7 @@
+from __future__ import unicode_literals
+
+from builtins import str
+
 from epubbuilder import epub
 from unittest import TestCase
 import os.path
@@ -117,13 +121,13 @@ class TestAPI(TestCase):
         # be able to write out to a zipfile
         out = self.book.make_epub()
         # try parsing it as a zipfile
-        zipfile.ZipFile(out, "r")
+        zipfile.ZipFile(str(out), "r")
 
     def test_memory_to_memory(self):
         """ the book that's constructed entirely in memory also should work """
-        out = self.im_book.make_epub()
+        out = str(self.im_book.make_epub())
         z = zipfile.ZipFile(out, "r")
-        print z.namelist()
+        print(z.namelist())
 
         assert 'mimetype' in z.namelist()
         assert 'OEBPS/cover.gif' in z.namelist()

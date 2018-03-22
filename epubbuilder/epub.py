@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from builtins import str
 
 # Copyright (c) 2012, Bin Tan
 # This file is distributed under the BSD Licence.
@@ -13,7 +16,10 @@ import uuid
 import zipfile
 from genshi.template import TemplateLoader
 from lxml import etree
-from cStringIO import StringIO
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 
 class TocMapNode:
@@ -85,16 +91,16 @@ class EpubBook:
         self.metaInfo.append((metaName, metaValue, metaAttrs))
 
     def getMetaTags(self):
-        l = []
+        li = []
         for metaName, metaValue, metaAttr in self.metaInfo:
             beginTag = '<dc:%s' % metaName
             if metaAttr:
-                for attrName, attrValue in metaAttr.iteritems():
+                for attrName, attrValue in metaAttr.items():
                     beginTag += ' opf:%s="%s"' % (attrName, attrValue)
             beginTag += '>'
             endTag = '</dc:%s>' % metaName
-            l.append((beginTag, metaValue, endTag))
-        return l
+            li.append((beginTag, metaValue, endTag))
+        return li
 
     def getImageItems(self):
         return sorted(self.imageItems.values(), key=lambda x: x.id)
@@ -226,9 +232,9 @@ class EpubBook:
     def getGuide(self):
         return sorted(self.guide.values(), key=lambda x: x[2])
 
-    def addGuideItem(self, href, title, type):
-        assert type not in self.guide
-        self.guide[type] = (href, title, type)
+    def addGuideItem(self, href, title, type_):
+        assert type_ not in self.guide
+        self.guide[type_] = (href, title, type_)
 
     def getTocMapRoot(self):
         return self.tocMapRoot
@@ -353,7 +359,7 @@ class EpubBook:
         if self.tocPage:
             self.__makeTocPage()
         sio = StringIO()
-        z = zipfile.ZipFile(sio, 'w', zipfile.ZIP_DEFLATED)
+        z = zipfile.ZipFile(str(sio), 'w', zipfile.ZIP_DEFLATED)
         z.writestr('mimetype', 'application/epub+zip',
                    compress_type=zipfile.ZIP_STORED)
 
@@ -362,24 +368,24 @@ class EpubBook:
             outname = os.path.join('OEBPS', item.destPath)
             if item.html:
                 z.writestr(outname,
-                           item.html.encode('ascii', 'xmlcharrefreplace'))
+                           item.html.encode('utf-8', 'xmlcharrefreplace'))
+            elif item.fileobj:
+                decoded = item.fileobj.read()
+                z.writestr(outname, decoded)
             else:
-                if item.fileobj:
-                    z.writestr(outname, item.fileobj.read())
-                else:
-                    # This still relies on local filesystem access
-                    # need to support in-memory file objects
-                    # on individual items
-                    try:
-                        z.write(item.srcPath, outname)
-                    except OSError:
-                        # can't find it...
-                        pass
+                # This still relies on local filesystem access
+                # need to support in-memory file objects
+                # on individual items
+                try:
+                    z.write(item.srcPath, outname)
+                except OSError:
+                    # can't find it...
+                    pass
 
         z.writestr('META-INF/container.xml', self.container_xml())
         z.writestr('OEBPS/content.opf', self.content_opf())
         self.tocMapRoot.assignPlayOrder()
         z.writestr('OEBPS/toc.ncx',
-                   self.toc_ncx().encode('ascii', 'xmlcharrefreplace'))
+                   self.toc_ncx().encode('utf-8', 'xmlcharrefreplace'))
         z.close()
         return sio
