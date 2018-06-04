@@ -29,9 +29,9 @@ class TestAPI(TestCase):
 
         self.book.addTitlePage()
         self.book.addTocPage()
-        self.book.addCover(r'test_data/ccnmtl.gif')
+        self.book.addCover('test_data/ccnmtl.gif')
 
-        self.book.addCss(r'test_data/main.css', 'main.css')
+        self.book.addCss('test_data/main.css', 'main.css')
 
         n1 = self.book.addHtml('', '1.html', getMinimalHtml('Chapter 1'))
         n11 = self.book.addHtml('', '2.html', getMinimalHtml('Section 1.1'))
@@ -64,12 +64,13 @@ class TestAPI(TestCase):
         self.im_book.addTocPage()
 
         self.im_book.addCover(
-            fileobj=open(r'test_data/ccnmtl.gif'),
+            srcPath='ccnmtl.gif',
+            fileobj=open('test_data/ccnmtl.gif', 'rb'),
             ext='.gif')
 
         self.im_book.addCss(
             destPath='main.css',
-            fileobj=open(r'test_data/main.css', 'rb'))
+            fileobj=open('test_data/main.css', 'r'))
 
         n1 = self.im_book.addHtml('', '1.html', getMinimalHtml('Chapter 1'))
         n11 = self.im_book.addHtml('', '2.html', getMinimalHtml('Section 1.1'))
@@ -110,7 +111,7 @@ class TestAPI(TestCase):
 
         self.assertIn("<opf:item", self.book.content_opf())
 
-        rootDir = r'test_output/test0'
+        rootDir = 'test_output/test0'
         self.book.createBook(rootDir)
         epub.EpubBook.createArchive(rootDir, rootDir + '.epub')
         self.assertTrue(os.path.exists(rootDir))
@@ -133,4 +134,5 @@ class TestAPI(TestCase):
         assert 'OEBPS/cover.gif' in z.namelist()
         assert 'OEBPS/main.css' in z.namelist()
 
-        assert '/* main.css test file */' in z.read('OEBPS/main.css')
+        assert '/* main.css test file */' in z.read(
+            'OEBPS/main.css').decode('utf-8')
