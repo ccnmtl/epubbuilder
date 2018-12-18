@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from builtins import str
-
 # Copyright (c) 2012, Bin Tan
 # This file is distributed under the BSD Licence.
 # See python-epub-builder-license.txt for details.
