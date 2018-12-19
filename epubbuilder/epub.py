@@ -93,7 +93,7 @@ class EpubBook:
         for metaName, metaValue, metaAttr in self.metaInfo:
             beginTag = '<dc:%s' % metaName
             if metaAttr:
-                for attrName, attrValue in metaAttr.items():
+                for attrName, attrValue in list(metaAttr.items()):
                     beginTag += ' opf:%s="%s"' % (attrName, attrValue)
             beginTag += '>'
             endTag = '</dc:%s>' % metaName
@@ -101,24 +101,24 @@ class EpubBook:
         return li
 
     def getImageItems(self):
-        return sorted(self.imageItems.values(), key=lambda x: x.id)
+        return sorted(list(self.imageItems.values()), key=lambda x: x.id)
 
     def getHtmlItems(self):
-        return sorted(self.htmlItems.values(), key=lambda x: x.id)
+        return sorted(list(self.htmlItems.values()), key=lambda x: x.id)
 
     def getCssItems(self):
-        return sorted(self.cssItems.values(), key=lambda x: x.id)
+        return sorted(list(self.cssItems.values()), key=lambda x: x.id)
 
     def getScriptItems(self):
-        return sorted(self.scriptItems.values(), key=lambda x: x.id)
+        return sorted(list(self.scriptItems.values()), key=lambda x: x.id)
 
     def getAllItems(self):
         return sorted(
             itertools.chain(
-                self.imageItems.values(),
-                self.htmlItems.values(),
-                self.cssItems.values(),
-                self.scriptItems.values()), key=lambda x: x.id)
+                list(self.imageItems.values()),
+                list(self.htmlItems.values()),
+                list(self.cssItems.values()),
+                list(self.scriptItems.values())), key=lambda x: x.id)
 
     def summary(self):
         s = [('HTML', len(self.htmlItems)),
@@ -228,7 +228,7 @@ class EpubBook:
         self.spine.append((order, item, linear))
 
     def getGuide(self):
-        return sorted(self.guide.values(), key=lambda x: x[2])
+        return sorted(list(self.guide.values()), key=lambda x: x[2])
 
     def addGuideItem(self, href, title, type_):
         assert type_ not in self.guide
