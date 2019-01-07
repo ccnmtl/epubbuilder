@@ -1,6 +1,7 @@
-0.2.1
+0.2.1 (2018-12-19)
 ==================
 * Fixed Python 2 error: No module named builtins
+* Fixed some more python 3 issues found with 2to3
 
 0.2.0 (2018-06-04)
 ==================

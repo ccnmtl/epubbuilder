@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name="epubbuilder",
-    version="0.2.0",
+    version="0.2.1",
     author="Anders Pearson",
     author_email="anders@columbia.edu",
     url="https://github.com/ccnmtl/epubbuilder",
