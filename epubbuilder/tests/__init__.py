@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from epubbuilder import epub
 from unittest import TestCase
 import os.path

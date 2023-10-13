@@ -1,8 +1,6 @@
 # Copyright (c) 2012, Bin Tan
 # This file is distributed under the BSD Licence.
 # See python-epub-builder-license.txt for details.
-from __future__ import unicode_literals
-
 import epub
 from genshi.template import TemplateLoader
 
