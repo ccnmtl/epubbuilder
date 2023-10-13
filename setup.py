@@ -6,7 +6,7 @@ setup(
     name="epubbuilder",
     version="0.2.1",
     author="Anders Pearson",
-    author_email="anders@columbia.edu",
+    author_email="ctl-dev@columbia.edu",
     url="https://github.com/ccnmtl/epubbuilder",
     description="epub builder library",
     long_description="forked from python-epub-builder",
