@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from setuptools import setup
 
 setup(
@@ -11,16 +9,13 @@ setup(
     description="epub builder library",
     long_description="forked from python-epub-builder",
     install_requires=[
-        "future",
         "lxml",
         "Genshi",
-        "nose"
     ],
     scripts=[],
     license="BSD",
     platforms=["any"],
     zip_safe=False,
     packages=['epubbuilder'],
-    test_suite='nose.collector',
     include_package_data=True,
 )
